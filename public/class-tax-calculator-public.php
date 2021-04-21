@@ -131,7 +131,7 @@ class Tax_Calculator_Public {
 				);
 				$postID = wp_insert_post( $post);
 
-				add_post_meta($postID, 'product_name', strip_tags($_POST['product_name']));
+				// add_post_meta($postID, 'product_name', strip_tags($_POST['product_name']));
 				add_post_meta($postID, 'net_amount', strip_tags($_POST['net_amount']));
 				add_post_meta($postID, 'currency', strip_tags($_POST['currency']));
 				add_post_meta($postID, 'vat_rate', strip_tags($_POST['vat_rate']));

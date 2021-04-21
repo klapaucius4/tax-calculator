@@ -58,6 +58,15 @@ class Tax_Calculator {
 	protected $version;
 
 	/**
+	 * The  short_domain of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      string    $short_domain    The short domain of plugin.
+	 */
+	protected $short_domain;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -73,11 +82,18 @@ class Tax_Calculator {
 			$this->version = '1.0.0';
 		}
 		$this->plugin_name = 'tax-calculator';
+		$this->short_domain = 'tc';
 
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+
+
+
+		////
+
+
 
 	}
 
@@ -152,10 +168,14 @@ class Tax_Calculator {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Tax_Calculator_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Tax_Calculator_Admin( $this->get_plugin_name(), $this->get_version(), $this->get_short_domain() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		
+		// $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		// $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		$this->loader->add_action('init', $plugin_admin, 'cpt_init');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'register_meta_box');
 
 	}
 
@@ -168,10 +188,13 @@ class Tax_Calculator {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Tax_Calculator_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Tax_Calculator_Public( $this->get_plugin_name(), $this->get_version(), $this->get_short_domain() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+
+		$this->loader->add_action('init', $plugin_public, 'register_shortcode');
 
 	}
 
@@ -193,6 +216,16 @@ class Tax_Calculator {
 	 */
 	public function get_plugin_name() {
 		return $this->plugin_name;
+	}
+
+	/**
+	 * The short domain of the plugin
+	 *
+	 * @since     1.0.0
+	 * @return    string    The short domain of the plugin.
+	 */
+	public function get_short_domain() {
+		return $this->short_domain;
 	}
 
 	/**

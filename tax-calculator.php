@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Tax Calculator
  * Plugin URI:        tax-calculator.michalkowalik.pl
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Simple plugin for the calculation of VAT. Prepared as the recruitment task.
  * Version:           1.0.0
  * Author:            Michał Kowalik
  * Author URI:        michalkowalik.pl

@@ -47,11 +47,22 @@ class Tax_Calculator_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+
+	 /**
+	 * The short domain of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $short_domain    The short domain version of this plugin.
+	 */
+	private $short_domain;
+
+
+	public function __construct( $plugin_name, $version, $short_domain ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->short_domain = $short_domain;
 	}
 
 	/**
@@ -98,6 +109,17 @@ class Tax_Calculator_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tax-calculator-public.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+
+	public function register_shortcode(){
+		// var_dump($this->short_domain.'_calculator_form'); exit;
+		add_shortcode($this->short_domain.'_calculator_form', array($this, 'calculator_form'));
+	}
+
+
+	public function calculator_form($atts, $content = null){
+		return "lorem ipsum odolor";
 	}
 
 }

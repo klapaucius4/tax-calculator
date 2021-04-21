@@ -11,6 +11,8 @@ Prepared as the recruitment task.
 
 Based on [Wordpress Plugin Boilerplate Generator](https://wppb.me/)
 
+Plugin demo [here](https://tax-calculator.michalkowalik.pl/)
+
 
 ### Getting started
 * Install and activate plugin

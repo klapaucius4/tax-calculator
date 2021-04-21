@@ -119,28 +119,88 @@ class Tax_Calculator_Public {
 
 
 	public function calculator_form($atts, $content = null){
+		$errorMessage = '';
 		if ( isset( $_POST['submit'] ) ) {
-			$post = array(
-				'post_type' => $this->short_domain.'_calculation',
-				// 'post_content' => strip_tags($_POST['content']), 
-				'post_title'   => $_POST['title'],
-				'post_status' => 'publish'
-			);
-			$id = wp_insert_post( $post, $wp_error );
+
+			$validate = $this->validate_form_data($_POST);
+			if($validate === true){
+				$post = array(
+					'post_type' => $this->short_domain.'_calculation',
+					'post_title'   => strip_tags($_POST['product_name']),
+					'post_status' => 'publish'
+				);
+				$postID = wp_insert_post( $post);
+
+				add_post_meta($postID, 'product_name', strip_tags($_POST['product_name']));
+				add_post_meta($postID, 'net_amount', strip_tags($_POST['net_amount']));
+				add_post_meta($postID, 'currency', strip_tags($_POST['currency']));
+				add_post_meta($postID, 'vat_rate', strip_tags($_POST['vat_rate']));
+
+				add_post_meta($postID, 'ip_address', Tax_Calculator_Helpers::get_current_ip_address());
+
+			}else{
+				$errorMessage = $validate;
+			}
+
+
+			
 		}
 		?> 
 		<form class="tc-form" method = "post">
 			<div class="tc-form__row">
-				<input type="text" name="title">
+				<label><?= __('Product name', 'tc'); ?></label>
+				<input type="text" name="product_name" required>
 			</div>
 			<div class="tc-form__row">
-				<input type="text" name="content">
+				<label><?= __('Net amount', 'tc'); ?></label>
+				<input type="number" name="net_amount" required>
 			</div>
 			<div class="tc-form__row">
-				<input type="submit" name="submit">
+				<label><?= __('Currency', 'tc'); ?></label>
+				<input type="text" name="currency" value="PLN" readonly>
 			</div>
+			<div class="tc-form__row">
+				<label><?= __('VAT rate', 'tc'); ?></label>
+				<select name="vat_rate" required>
+					<option value="23">23%</option>
+					<option value="22">22%</option>
+					<option value="8">8%</option>
+					<option value="7">7%</option>
+					<option value="5">5%</option>
+					<option value="3">3%</option>
+					<option value="0">0%</option>
+					<option value="vat-exempt"><?= __('VAT exempt', 'tc'); ?></option>
+				</select>
+			</div>
+			<div class="tc-form__row">
+				<input type="submit" name="submit" value="<?= __('Calculate', 'tc'); ?>">
+			</div>
+
+			<?php if(!empty($errorMessage)): ?>
+			<div class="tc-form__error-msg"><?= $errorMessage; ?></div>
+			<?php endif; ?>
 		</form>
 		<?php
+	}
+
+
+
+	private function validate_form_data($data){
+		if(!isset($data['product_name']) && !strip_tags($data['product_name'])){
+			return __('the product_name field cannot be empty', 'tc');
+		}
+		if(!isset($data['net_amount']) && !strip_tags($data['net_amount'])){
+			return __('the net_amount field cannot be empty', 'tc');
+		}
+		if(!isset($data['currency']) && !strip_tags($data['currency'])){
+			return __('the currency field cannot be empty', 'tc');
+		}
+		if(!isset($data['vat_rate']) && !strip_tags($data['vat_rate'])){
+			return __('the vat_rate field cannot be empty', 'tc');
+		}
+
+		return true;
+
 	}
 
 }

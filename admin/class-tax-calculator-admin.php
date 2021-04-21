@@ -139,7 +139,13 @@ class Tax_Calculator_Admin {
 
 
 	public function display_calculation_data(){
-		echo 'trololo';
+		global $post;
+		echo '<p>' . __('Product name: ') . get_post_meta($post->ID, 'product_name', true) . '</p>';
+		echo '<p>' . __('Net amount: ') . get_post_meta($post->ID, 'net_amount', true) . '</p>';
+		echo '<p>' . __('Currency: ') . get_post_meta($post->ID, 'currency', true) . '</p>';
+		echo '<p>' . __('VAT rate: ') . get_post_meta($post->ID, 'vat_rate', true) . '</p>';
+
+		echo '<p>' . __('Client IP address') . get_post_meta($post->ID, 'ip_address', true) . '</p>';
 	}
 
 }

@@ -138,6 +138,9 @@ class Tax_Calculator {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-tax-calculator-public.php';
 
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-tax-calculator-helpers.php';
+
 		$this->loader = new Tax_Calculator_Loader();
 
 	}

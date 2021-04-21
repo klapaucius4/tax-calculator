@@ -41,17 +41,26 @@ class Tax_Calculator_Admin {
 	private $version;
 
 	/**
+	 * The short domain of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $short_domain    The short domain version of this plugin.
+	 */
+	private $short_domain;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version, $short_domain ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->short_domain = $short_domain;
 	}
 
 	/**
@@ -98,6 +107,45 @@ class Tax_Calculator_Admin {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tax-calculator-admin.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+
+	public function cpt_init(){
+		/// registering post type "tc_calculation"
+		register_post_type($this->short_domain.'_calculation', array(
+			'labels' => array(
+				'name'          => __('Calculations', 'maspex'),
+				'singular_name' => __('Calculation', 'maspex'),
+			),
+			'public' => true,
+			'publicly_queryable' => true,
+			'show_ui' => true,
+			'show_in_menu' => true,
+			'query_var' => true,
+			'capability_type' => 'post',
+			'has_archive' => __('products', 'maspex'), 
+			'hierarchical' => false,
+			'menu_position' => null,
+			'supports' => array( 'title' ),
+			'menu_icon' => 'dashicons-calculator',
+			)
+		);
+	}
+
+
+	public function register_meta_box() {
+		add_meta_box( $this->short_domain.'_calculation_meta_box', __( 'Calculation data', 'tc' ), array($this, 'display_calculation_data'), $this->short_domain.'_calculation' );
+	}
+
+
+	public function display_calculation_data(){
+		global $post;
+		echo '<p>' . __('Product name: ') . get_post_meta($post->ID, 'product_name', true) . '</p>';
+		echo '<p>' . __('Net amount: ') . get_post_meta($post->ID, 'net_amount', true) . '</p>';
+		echo '<p>' . __('Currency: ') . get_post_meta($post->ID, 'currency', true) . '</p>';
+		echo '<p>' . __('VAT rate: ') . get_post_meta($post->ID, 'vat_rate', true) . '</p>';
+
+		echo '<p>' . __('Client IP address') . get_post_meta($post->ID, 'ip_address', true) . '</p>';
 	}
 
 }

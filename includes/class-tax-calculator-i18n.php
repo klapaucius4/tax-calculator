@@ -35,7 +35,7 @@ class Tax_Calculator_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'tax-calculator',
+			'tc',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

@@ -2,3 +2,23 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+
+ .tc-form {
+    /* width: 500px; */
+    width: 600px;
+    background: #dcdcdc;
+    border-radius: 10px;
+    padding: 30px;
+ }
+
+ .tc-form__row {
+     display: flex;
+     justify-content: space-between;
+     margin-bottom: 20px;
+ }
+ .tc-form__row label,
+ .tc-form__row input,
+ .tc-form__row select {
+    
+ }

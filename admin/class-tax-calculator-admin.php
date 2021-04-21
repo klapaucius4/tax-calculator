@@ -115,6 +115,7 @@ class Tax_Calculator_Admin {
 			$columns['tc_calculation_net_amount'] = __('Net Amount', 'tc');
 			$columns['tc_calculation_currency'] = __('Currency', 'tc');
 			$columns['tc_calculation_var_rate'] = __('Vat rate in %', 'tc');
+			$columns['tc_calculation_ip'] = __('IP Address', 'tc');
 		
 			//change date order to the end
 			$date = $columns['date'];
@@ -137,6 +138,9 @@ class Tax_Calculator_Admin {
 
 				case 'tc_calculation_var_rate':
 					echo get_post_meta($post_id, 'vat_rate', true) ? : '-';
+					break;
+				case 'tc_calculation_ip':
+					echo get_post_meta($post_id, 'ip_address', true) ? : '-';
 					break;
 		
 			}

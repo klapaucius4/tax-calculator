@@ -150,6 +150,10 @@ class Tax_Calculator_Public {
 					$successMessage .= __('Gross product price is: ', 'tc') . $grossAmount . ' ' . $currency;
 					$successMessage .= ', ';
 					$successMessage .= ', Vat amount is: '.$vatAmount . ' ' . $currency;
+
+
+					unset($_POST);
+					unset($_REQUEST);
 				}
 
 			}else{

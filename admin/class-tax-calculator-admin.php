@@ -114,7 +114,7 @@ class Tax_Calculator_Admin {
 		add_filter( 'manage_tc_calculation_posts_columns', function($columns) {
 			$columns['tc_calculation_net_amount'] = __('Net Amount', 'tc');
 			$columns['tc_calculation_currency'] = __('Currency', 'tc');
-			$columns['tc_calculation_var_rate'] = __('Vat rate', 'tc');
+			$columns['tc_calculation_var_rate'] = __('Vat rate in %', 'tc');
 		
 			//change date order to the end
 			$date = $columns['date'];

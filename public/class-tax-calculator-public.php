@@ -147,7 +147,7 @@ class Tax_Calculator_Public {
 
 
 				if($postID){
-					$successMessage .= __('Gross product price is '. 'tc') . $grossPrice . ' ' . $currency;
+					$successMessage .= __('Gross product price is: ', 'tc') . $grossAmount . ' ' . $currency;
 					$successMessage .= ', ';
 					$successMessage .= ', Vat amount is: '.$vatAmount . ' ' . $currency;
 				}
@@ -163,6 +163,8 @@ class Tax_Calculator_Public {
 
 		<?php if(!empty($successMessage)): ?>
 			<div class="tc-form__msg--success"><?= $successMessage; ?></div>
+			<br />
+			<a href="<?= home_url(); ?>"><?= __('Back', 'tc'); ?></a>
 		<?php else: ?>
 		<form class="tc-form" method = "post">
 			<div class="tc-form__row">
@@ -187,7 +189,6 @@ class Tax_Calculator_Public {
 					<option value="5">5%</option>
 					<option value="3">3%</option>
 					<option value="0">0%</option>
-					<option value="vat-exempt"><?= __('VAT exempt', 'tc'); ?></option>
 				</select>
 			</div>
 			<div class="tc-form__row">

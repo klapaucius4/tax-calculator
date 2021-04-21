@@ -119,7 +119,28 @@ class Tax_Calculator_Public {
 
 
 	public function calculator_form($atts, $content = null){
-		return "lorem ipsum odolor";
+		if ( isset( $_POST['submit'] ) ) {
+			$post = array(
+				'post_type' => $this->short_domain.'_calculation',
+				// 'post_content' => strip_tags($_POST['content']), 
+				'post_title'   => $_POST['title'],
+				'post_status' => 'publish'
+			);
+			$id = wp_insert_post( $post, $wp_error );
+		}
+		?> 
+		<form class="tc-form" method = "post">
+			<div class="tc-form__row">
+				<input type="text" name="title">
+			</div>
+			<div class="tc-form__row">
+				<input type="text" name="content">
+			</div>
+			<div class="tc-form__row">
+				<input type="submit" name="submit">
+			</div>
+		</form>
+		<?php
 	}
 
 }

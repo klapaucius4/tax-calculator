@@ -143,7 +143,7 @@ class Tax_Calculator_Admin {
 		echo '<p>' . __('Product name:') . ' <strong>' . get_post_meta($post->ID, 'product_name', true) . '</strong></p>';
 		echo '<p>' . __('Net amount:') . ' <strong>' . get_post_meta($post->ID, 'net_amount', true) . '</strong></p>';
 		echo '<p>' . __('Currency:') . ' <strong>' . get_post_meta($post->ID, 'currency', true) . '</strong></p>';
-		echo '<p>' . __('VAT rate:') . ' <strong>' . get_post_meta($post->ID, 'vat_rate', true) . '</storng></p>';
+		echo '<p>' . __('VAT rate:') . ' <strong>' . get_post_meta($post->ID, 'vat_rate', true) . '</strong></p>';
 
 		echo '<p>' . __('Client IP address:') . ' <strong>' . get_post_meta($post->ID, 'ip_address', true) . '</strong></p>';
 	}

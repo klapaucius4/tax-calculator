@@ -179,6 +179,7 @@ class Tax_Calculator {
 
 		$this->loader->add_action('init', $plugin_admin, 'cpt_init');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'register_meta_box');
+		$this->loader->add_action('init', $plugin_admin, 'cpt_custom_columns');
 
 	}
 

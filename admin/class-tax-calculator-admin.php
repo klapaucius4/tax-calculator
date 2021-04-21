@@ -110,12 +110,50 @@ class Tax_Calculator_Admin {
 	}
 
 
+	public function cpt_custom_columns(){
+		add_filter( 'manage_tc_calculation_posts_columns', function($columns) {
+			$columns['tc_calculation_net_amount'] = __('Net Amount', 'tc');
+			$columns['tc_calculation_currency'] = __('Currency', 'tc');
+			$columns['tc_calculation_var_rate'] = __('Vat rate in %', 'tc');
+			$columns['tc_calculation_ip'] = __('IP Address', 'tc');
+		
+			//change date order to the end
+			$date = $columns['date'];
+			unset($columns['date']);
+			$columns['date'] = $date;
+		
+			return $columns;
+		});
+		
+		add_action( 'manage_tc_calculation_posts_custom_column' , function( $column, $post_id ) {
+			switch ( $column ) {
+	
+				case 'tc_calculation_net_amount':
+					echo get_post_meta($post_id, 'net_amount', true) ? : '-';
+					break;
+		
+				case 'tc_calculation_currency':
+					echo get_post_meta($post_id, 'currency', true) ? : '-';
+					break;
+
+				case 'tc_calculation_var_rate':
+					echo get_post_meta($post_id, 'vat_rate', true) ? : '-';
+					break;
+				case 'tc_calculation_ip':
+					echo get_post_meta($post_id, 'ip_address', true) ? : '-';
+					break;
+		
+			}
+		}, 10, 2 );
+	}
+
+
 	public function cpt_init(){
 		/// registering post type "tc_calculation"
 		register_post_type($this->short_domain.'_calculation', array(
 			'labels' => array(
-				'name'          => __('Calculations', 'maspex'),
-				'singular_name' => __('Calculation', 'maspex'),
+				'name'          => __('Calculations', 'tc'),
+				'singular_name' => __('Calculation', 'tc'),
 			),
 			'public' => true,
 			'publicly_queryable' => true,
@@ -123,7 +161,7 @@ class Tax_Calculator_Admin {
 			'show_in_menu' => true,
 			'query_var' => true,
 			'capability_type' => 'post',
-			'has_archive' => __('products', 'maspex'), 
+			'has_archive' => false,
 			'hierarchical' => false,
 			'menu_position' => null,
 			'supports' => array( 'title' ),
@@ -140,12 +178,11 @@ class Tax_Calculator_Admin {
 
 	public function display_calculation_data(){
 		global $post;
-		echo '<p>' . __('Product name: ') . get_post_meta($post->ID, 'product_name', true) . '</p>';
-		echo '<p>' . __('Net amount: ') . get_post_meta($post->ID, 'net_amount', true) . '</p>';
-		echo '<p>' . __('Currency: ') . get_post_meta($post->ID, 'currency', true) . '</p>';
-		echo '<p>' . __('VAT rate: ') . get_post_meta($post->ID, 'vat_rate', true) . '</p>';
+		echo '<p>' . __('Net amount:') . ' <strong>' . get_post_meta($post->ID, 'net_amount', true) . '</strong></p>';
+		echo '<p>' . __('Currency:') . ' <strong>' . get_post_meta($post->ID, 'currency', true) . '</strong></p>';
+		echo '<p>' . __('VAT rate:') . ' <strong>' . get_post_meta($post->ID, 'vat_rate', true) . '</strong></p>';
 
-		echo '<p>' . __('Client IP address') . get_post_meta($post->ID, 'ip_address', true) . '</p>';
+		echo '<p>' . __('Client IP address:') . ' <strong>' . get_post_meta($post->ID, 'ip_address', true) . '</strong></p>';
 	}
 
 }

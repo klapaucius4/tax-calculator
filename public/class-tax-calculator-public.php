@@ -120,6 +120,7 @@ class Tax_Calculator_Public {
 
 	public function calculator_form($atts, $content = null){
 		$errorMessage = '';
+		$successMessage = '';
 		if ( isset( $_POST['submit'] ) ) {
 
 			$validate = $this->validate_form_data($_POST);
@@ -131,12 +132,25 @@ class Tax_Calculator_Public {
 				);
 				$postID = wp_insert_post( $post);
 
-				// add_post_meta($postID, 'product_name', strip_tags($_POST['product_name']));
-				add_post_meta($postID, 'net_amount', strip_tags($_POST['net_amount']));
-				add_post_meta($postID, 'currency', strip_tags($_POST['currency']));
-				add_post_meta($postID, 'vat_rate', strip_tags($_POST['vat_rate']));
+				$netAmount = strip_tags($_POST['net_amount']);
+				$currency = strip_tags($_POST['currency']);
+				$vatRate = strip_tags($_POST['vat_rate']);
+
+				$grossAmount = number_format((float)($vatRate / 100 * $netAmount + $netAmount), 2, ',', '');
+				$vatAmount = number_format((float)($vatRate / 100 * $netAmount), 2, ',', '');
+
+				add_post_meta($postID, 'net_amount', $netAmount);
+				add_post_meta($postID, 'currency', $currency);
+				add_post_meta($postID, 'vat_rate', $vatRate);
 
 				add_post_meta($postID, 'ip_address', Tax_Calculator_Helpers::get_current_ip_address());
+
+
+				if($postID){
+					$successMessage .= __('Gross product price is '. 'tc') . $grossPrice . ' ' . $currency;
+					$successMessage .= ', ';
+					$successMessage .= ', Vat amount is: '.$vatAmount . ' ' . $currency;
+				}
 
 			}else{
 				$errorMessage = $validate;
@@ -145,7 +159,11 @@ class Tax_Calculator_Public {
 
 			
 		}
-		?> 
+		?>
+
+		<?php if(!empty($successMessage)): ?>
+			<div class="tc-form__msg--success"><?= $successMessage; ?></div>
+		<?php else: ?>
 		<form class="tc-form" method = "post">
 			<div class="tc-form__row">
 				<label><?= __('Product name', 'tc'); ?></label>
@@ -177,9 +195,11 @@ class Tax_Calculator_Public {
 			</div>
 
 			<?php if(!empty($errorMessage)): ?>
-			<div class="tc-form__error-msg"><?= $errorMessage; ?></div>
+			<div class="tc-form__msg--error"><?= $errorMessage; ?></div>
 			<?php endif; ?>
+
 		</form>
+		<?php endif; ?>
 		<?php
 	}
 

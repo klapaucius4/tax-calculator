@@ -22,3 +22,14 @@
  .tc-form__row select {
     
  }
+
+ .tc-form__msg {
+
+ }
+ .tc-form__msg--error {
+    color: red;
+ }
+
+ .tc-form__msg--success {
+     color: green;
+ }
